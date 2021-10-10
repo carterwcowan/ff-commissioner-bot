@@ -1,92 +1,17 @@
-const { App } = require("@slack/bolt");
 const fs = require("fs");
 const { Client } = require("espn-fantasy-football-api/node"); // node
 const table = require("table").table;
 const nodeHtmlToImage = require("node-html-to-image");
-require('dotenv').config()
+require("dotenv").config();
+
+import bot from "./src/bot/bot.js";
 
 // Initializes your app with your bot token and signing secret
-const app = new App({
-  token: `${process.env.BOT_TOKEN}`,
-  signingSecret: `${process.env.SIGNING_SECRET}`,
-  socketMode: true,
-  appToken: `${process.env.APP_TOKEN}`
-});
+
 const myClient = new Client({ leagueId: 56069 });
 myClient.setCookies({
   espnS2: `${process.env.FF_S2}`,
   SWID: `${process.env.FF_SWID}`,
-});
-
-const STANDINGS_FILE_NAME = (num) => `week${num}.png`;
-
-const BOT_ID = "<@U02H4H18945>";
-
-const dictionary = {
-  "what is your purpose?": `i'm just here so i don't get fined`,
-  "who is the real commissioner?": "Dano",
-};
-
-const UNKNWOWN_PHRASES = [
-    `i'm just here so i don't get fined.`,
-    `use English, i have no fucking clue what you just said.`,
-    `:shrug:`,
-    `idk. but rememeber when Will drafted Andrew Luck 2nd overall? i do.`,
-    `come again?`,
-    `be sure to download HiddenVault on the iOS App Store!`,
-    `y'all are giving me a headache`,
-    `Ok, only thing I’m gonna say on it - You shouldn’t make offers when you aren’t sure. Because I just wasted my time looking at bye weeks, checking over opponents, ros ranks, and making an entirely different deal, just for you to watch one 30 second clip and change your mind. And I didn’t even get the condescending “sorry” I was expecting. Please respect people’s time.`,
-
-];
-
-const INTRODUCTION = `Hello everyone! My name is CommissionerBot, the sentient commissioner... uh, bot? I'm here to do just as much work as the actual commissioners (not much. also, why are there 2? :thinking_face: ). My job is to update the Weekly Standings and ignore any trade approval/veto requests. Sound familiar? `;
-
-const greetingsRegex = /\b(hi|hello|welcome)\b/g
-
-
-app.message(`${BOT_ID}`, async ({ message, context, say }) => {
-  const { text } = message;
-  const searchText = text.replace(BOT_ID, "").toLowerCase().trim();
-
-  console.log(searchText);
-
-  if (searchText.indexOf("nap time") >= 0) {
-    await say(`It's nap time, I'll be back later. . . `);
-    return app.stop();
-  }
-
-  if (searchText.indexOf('introduce yourself') >=0) {
-      return await say(INTRODUCTION);
-  }
-
-  if (searchText.indexOf("standings") >= 0) {
-    const currentWeek = searchText.match(/\d+/)[0];
-
-    if (currentWeek) {
-      if (fs.existsSync(STANDINGS_FILE_NAME(currentWeek))) {
-        console.log("sending standings");
-        await sendStandingsImg(currentWeek);
-      } else {
-        console.log("fetching and sending standings");
-        await run(currentWeek);
-        await sendStandingsImg(currentWeek);
-      }
-    }
-    return;
-  }
-
-  if (dictionary[searchText]) {
-    return await say(dictionary[searchText]);
-  }
-  if (searchText.match(greetingsRegex)) {
-    return await say(`<@${message.user}> sup, nerd`);
-  }
-  return await say(getRandomResponse(UNKNWOWN_PHRASES));
-});
-
-app.command("/standings", async ({ command, ack, respond }) => {
-  await ack();
-  await sendStandingsImg(command.text);
 });
 
 let leagueData;
@@ -268,7 +193,7 @@ async function outputResults(currentWeekNumber) {
 
 (async () => {
   // Start your app
-  await app.start(process.env.PORT || 3000);
+  await bot.start(process.env.PORT || 3000);
 
   console.log("⚡️ Bolt app is running!");
 })();
@@ -312,6 +237,3 @@ function makeTableHTML(myArray) {
   return result;
 }
 
-function getRandomResponse(phrases) {
-    return phrases[Math.floor(Math.random()*phrases.length)];
-}
