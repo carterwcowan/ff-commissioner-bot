@@ -10,11 +10,15 @@ export async function handleCommand(event) {
   const week = command.text;
   await ack();
 
-  const standings = await generateStandings();
-  const formattedTable = buildTable(standings, week);
-  const imagePath = await generateImage(formattedTable, week);
+  let imagePath = `./assets/standings-week-${week}.png`;
 
-  await sendStandingsImg(imagePath, week);
+  if (!checkFileExists(week)) {
+    const standings = await generateStandings();
+    const formattedTable = buildTable(standings, week);
+    imagePath = await generateImage(formattedTable, week);
+  }
+
+  return await sendStandingsImg(imagePath, week);
 }
 
 function buildTable(standings, week) {
@@ -82,4 +86,10 @@ async function sendStandingsImg(imgPath, weekNumber) {
   } catch (error) {
     console.error(error);
   }
+}
+
+function checkFileExists(weekNumber) {
+  const path = `./assets/standings-week-${weekNumber}.png`;
+
+  return fs.existsSync(path);
 }
