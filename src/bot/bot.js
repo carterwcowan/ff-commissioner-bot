@@ -15,4 +15,6 @@ bot.message(directMention(), async (event) => await handleMessage(event));
 
 bot.command("/standings", async (event) => await handleCommand(event));
 
+
+
 export default bot;
