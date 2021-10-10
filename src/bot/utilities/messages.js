@@ -22,22 +22,6 @@ export async function handleMessage(event) {
     return await say(INTRODUCTION);
   }
 
-  if (searchText.indexOf("standings") >= 0) {
-    const currentWeek = searchText.match(/\d+/)[0];
-
-    if (currentWeek) {
-      if (fs.existsSync(STANDINGS_FILE_NAME(currentWeek))) {
-        console.log("sending standings");
-        await sendStandingsImg(currentWeek);
-      } else {
-        console.log("fetching and sending standings");
-        await run(currentWeek);
-        await sendStandingsImg(currentWeek);
-      }
-    }
-    return;
-  }
-
   if (DICTIONARY[searchText]) {
     return await say(DICTIONARY[searchText]);
   }
