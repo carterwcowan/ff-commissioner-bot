@@ -1,0 +1,27 @@
+{
+  "name": "ff-commish-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "standings": "node standings.js",
+    "img": "node img.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/bolt": "^3.7.0",
+    "espn-fantasy-football-api": "^0.16.1",
+    "html-to-image": "^1.9.0",
+    "jsdom": "^18.0.0",
+    "node-html-to-image": "^3.2.0",
+    "table": "^6.7.2",
+    "text-to-image": "^4.1.1",
+    "ultimate-text-to-image": "^1.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
+  }
+}
