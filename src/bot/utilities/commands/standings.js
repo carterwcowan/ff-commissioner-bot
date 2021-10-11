@@ -1,11 +1,10 @@
-import { generateStandings } from "../../fantasy/utilities/standings.js";
-import { STANDINGS_FILE_NAME } from "../../constants.js";
-import bot from "../bot.js";
+import { generateStandings } from "../../../fantasy/utilities/standings";
+import bot from "../../bot";
 const fs = require("fs");
 
 const nodeHtmlToImage = require("node-html-to-image");
 
-export async function handleCommand(event) {
+export default async function handleStandings(event) {
   const { command, ack } = event;
   const week = command.text;
   await ack();

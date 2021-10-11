@@ -1,5 +1,6 @@
 import { App as SlackBot, directMention } from "@slack/bolt";
-import { handleCommand } from "./utilities/commands";
+import handleStandings from "./utilities/commands/standings";
+import handleTradeReview from "./utilities/commands/trade-review";
 import { handleMessage } from "./utilities/messages";
 
 require("dotenv").config();
@@ -13,8 +14,8 @@ const bot = new SlackBot({
 
 bot.message(directMention(), async (event) => await handleMessage(event));
 
-bot.command("/standings", async (event) => await handleCommand(event));
+bot.command("/standings", handleStandings);
 
-
+bot.command("/trade-review", handleTradeReview);
 
 export default bot;
