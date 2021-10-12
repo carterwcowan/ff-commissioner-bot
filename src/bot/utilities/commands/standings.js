@@ -88,7 +88,7 @@ async function sendStandingsImg(imgPath, weekNumber, channel) {
     await bot.client.files.upload({
       // channels can be a list of one to many strings
       channels: channel,
-      initial_comment: `*Week ${weekNumber} Standings*`,
+      initial_comment: `*Standings After Week ${weekNumber}*`,
       // Include your filename in a ReadStream here
       file: fs.createReadStream(imgPath),
     });

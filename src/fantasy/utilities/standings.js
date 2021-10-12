@@ -73,7 +73,6 @@ async function getBoxscoresForWeek(weekNumber, teams) {
     scores: weekTotals,
     matchups: data,
   };
-
   return week;
 }
 
@@ -91,6 +90,10 @@ function createRankings(weeklyScores, teams) {
   teams.forEach((team) => {
     team.leaguePoints = team.leaguePointsFromWins + team.leaugePointsFromTop7;
   });
+
+  fs.writeFile('./assets/weeklyscores.json', JSON.stringify(weeklyScores), ()=>{});
+  fs.writeFile('./assets/teams.json', JSON.stringify(teams.sort(rankTeams)), ()=>{});
+
   return teams.sort(rankTeams);
 }
 
