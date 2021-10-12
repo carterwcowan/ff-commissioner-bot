@@ -6,6 +6,8 @@ const nodeHtmlToImage = require("node-html-to-image");
 
 export default async function handleStandings(event) {
   const { command, ack } = event;
+  const { channel_id } = command;
+  console.log(event);
   const week = command.text;
   await ack();
 
@@ -17,7 +19,7 @@ export default async function handleStandings(event) {
     imagePath = await generateImage(formattedTable, week);
   }
 
-  return await sendStandingsImg(imagePath, week);
+  return await sendStandingsImg(imagePath, week, channel_id);
 }
 
 function buildTable(standings, week) {
@@ -47,11 +49,21 @@ function buildTable(standings, week) {
 }
 
 function makeTableHTML(myArray) {
-  var result = "<table border=1>";
+  const styles = `
+  <style>
+  table { border-collapse: collapse; }
+  td { text-align: center; padding: .5rem 1rem; }
+  </style>
+  `;
+  var result = styles + "<table border=1>";
   for (var i = 0; i < myArray.length; i++) {
     result += "<tr>";
     for (var j = 0; j < myArray[i].length; j++) {
-      result += "<td>" + myArray[i][j] + "</td>";
+      if (j === 0) {
+        result += "<th align='center'>" + myArray[i][j] + "</th>";
+      } else {
+        result += "<td>" + myArray[i][j] + "</td>";
+      }
     }
     result += "</tr>";
   }
@@ -70,15 +82,15 @@ async function generateImage(html, weekNumber) {
   return path;
 }
 
-async function sendStandingsImg(imgPath, weekNumber) {
+async function sendStandingsImg(imgPath, weekNumber, channel) {
   try {
     console.log("TRY - sendings standings");
-
+    console.log(channel);
     // Call the files.upload method using the WebClient
     await bot.client.files.upload({
       // channels can be a list of one to many strings
-      channels: "#commissioner-bot",
-      initial_comment: `Here are the Week ${weekNumber} Standings`,
+      channels: channel,
+      initial_comment: `*Week ${weekNumber} Standings*`,
       // Include your filename in a ReadStream here
       file: fs.createReadStream(imgPath),
     });
