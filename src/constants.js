@@ -18,6 +18,23 @@ export const UNKNWOWN_PHRASES = [
   `Ok, only thing I’m gonna say on it - You shouldn’t make offers when you aren’t sure. Because I just wasted my time looking at bye weeks, checking over opponents, ros ranks, and making an entirely different deal, just for you to watch one 30 second clip and change your mind. And I didn’t even get the condescending “sorry” I was expecting. Please respect people’s time.`,
 ];
 
+export const PRAISE_RESPONSES = [
+  '* happy bot noises *',
+  '* unintelligible robot sounds *',
+  ':drooling_face:',
+  'you like that daddy?',
+  'did i finally make you proud of me??',
+];
+
+export const SCOLD_RESPOSNES = [
+  `* sad bot sounds *`,
+  'no u',
+  `* screams in bot *`,
+  'REEEEEEEEEEEEEEE!!!',
+  ':heart_eyes: oh yeah. scold me daddy :heart_eyes:',
+  '?????????'
+]
+
 export const INTRODUCTION = `Hello everyone! My name is CommissionerBot, the sentient commissioner... uh, bot? I'm here to do just as much work as the actual commissioners (not much. also, why are there 2? :thinking_face: ). My job is to update the Weekly Standings and ignore any trade approval/veto requests. Sound familiar? `;
 
 export const GREETINGS_REGEX = /\b(hi|hello|welcome)\b/g;

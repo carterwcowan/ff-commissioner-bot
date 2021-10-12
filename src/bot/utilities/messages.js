@@ -31,6 +31,6 @@ export async function handleMessage(event) {
   return await say(getRandomResponse(UNKNWOWN_PHRASES));
 }
 
-function getRandomResponse(phrases) {
+export function getRandomResponse(phrases) {
   return phrases[Math.floor(Math.random() * phrases.length)];
 }
