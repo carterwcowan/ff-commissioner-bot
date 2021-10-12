@@ -13,7 +13,7 @@ export default async function handleStandings(event) {
   let imagePath = `./assets/standings-week-${week}.png`;
 
   if (!checkFileExists(week)) {
-    const standings = await generateStandings();
+    const standings = await generateStandings(week);
     const formattedTable = buildTable(standings, week);
     imagePath = await generateImage(formattedTable, week);
   }

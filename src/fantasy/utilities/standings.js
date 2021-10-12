@@ -1,9 +1,10 @@
 import client from "../client";
-const fs = require('fs');
+const fs = require("fs");
 
 export async function generateStandings(weekNumber) {
+  const weeks = parseInt(weekNumber);
   const teams = await getTeams();
-  const weeklyScores = await getAllBoxscores(weekNumber);
+  const weeklyScores = await getAllBoxscores(weeks, teams);
   const rankings = createRankings(weeklyScores, teams);
   return rankings;
 }
@@ -30,18 +31,18 @@ async function getTeams() {
   return updatedTeams;
 }
 
-async function getAllBoxscores(finishedWeeks) {
+async function getAllBoxscores(finishedWeeks, teams) {
   const allWeeks = [];
 
   for (let i = 1; i <= finishedWeeks; i++) {
-    const week = await getBoxscoresForWeek(i);
+    const week = await getBoxscoresForWeek(i, teams);
     allWeeks.push(week);
   }
 
   return [...allWeeks];
 }
 
-async function getBoxscoresForWeek(weekNumber) {
+async function getBoxscoresForWeek(weekNumber, teams) {
   const weekTotals = [];
   const boxScores = await client.getBoxscoreForWeek({
     seasonId: 2021,
@@ -50,8 +51,8 @@ async function getBoxscoresForWeek(weekNumber) {
   });
   const data = boxScores.map((score) => {
     const { homeTeamId, awayTeamId } = score;
-    const homeTeam = formattedTeams.find((team) => team.id === homeTeamId).name;
-    const awayTeam = formattedTeams.find((team) => team.id === awayTeamId).name;
+    const homeTeam = teams.find((team) => team.id === homeTeamId).name;
+    const awayTeam = teams.find((team) => team.id === awayTeamId).name;
 
     weekTotals.push({ homeTeam, points: score.homeScore, id: homeTeamId });
     weekTotals.push({ awayTeam, points: score.awayScore, id: awayTeamId });
@@ -98,4 +99,8 @@ function rankTeams(a, b) {
   return a.leaguePoints === b.leaguePoints
     ? b.totalPointsScored - a.totalPointsScored
     : b.leaguePoints - a.leaguePoints;
+}
+
+function getTop7Points(a, b) {
+  return b.points - a.points;
 }
