@@ -7,7 +7,6 @@ const nodeHtmlToImage = require("node-html-to-image");
 export default async function handleStandings(event) {
   const { command, ack } = event;
   const { channel_id } = command;
-  console.log(event);
   const week = command.text;
   await ack();
 
@@ -85,7 +84,6 @@ async function generateImage(html, weekNumber) {
 async function sendStandingsImg(imgPath, weekNumber, channel) {
   try {
     console.log("TRY - sendings standings");
-    console.log(channel);
     // Call the files.upload method using the WebClient
     await bot.client.files.upload({
       // channels can be a list of one to many strings
