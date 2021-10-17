@@ -1,5 +1,6 @@
 import { App as SlackBot, directMention } from "@slack/bolt";
 import handleStandings from "./utilities/commands/standings";
+import handleSunday from "./utilities/commands/sunday";
 import handleTradeReview from "./utilities/commands/trade-review";
 import { handleMessage } from "./utilities/messages";
 import handlePraise from "./utilities/messages/praise";
@@ -23,5 +24,7 @@ bot.message('bad bot', handleScold);
 bot.command("/standings", handleStandings);
 
 bot.command("/trade-review", handleTradeReview);
+
+bot.command('/sunday', handleSunday);
 
 export default bot;
