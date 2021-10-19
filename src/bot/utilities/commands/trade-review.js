@@ -1,4 +1,4 @@
-import bot from "../../bot";
+import bot from "../../bot.js";
 
 export default async function handleTradeReview(event) {
   const { command, ack, say } = event;

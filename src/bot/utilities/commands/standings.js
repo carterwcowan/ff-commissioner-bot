@@ -1,8 +1,10 @@
-import { generateStandings } from "../../../fantasy/utilities/standings";
-import bot from "../../bot";
-const fs = require("fs");
+import { generateStandings } from "../../../fantasy/utilities/standings.js";
+import pkg from 'node-html-to-image';
+const { nodeHtmlToImage } = pkg;
+import bot from "../../bot.js";
+import fs from "fs";
 
-const nodeHtmlToImage = require("node-html-to-image");
+// const nodeHtmlToImage = require("node-html-to-image");
 
 export default async function handleStandings(event) {
   const { command, ack } = event;

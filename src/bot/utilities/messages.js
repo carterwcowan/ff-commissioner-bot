@@ -4,7 +4,7 @@ import {
   UNKNWOWN_PHRASES,
   INTRODUCTION,
   GREETINGS_REGEX,
-} from "../../constants";
+} from "../../constants.js";
 
 export async function handleMessage(event) {
   const { message, say } = event;

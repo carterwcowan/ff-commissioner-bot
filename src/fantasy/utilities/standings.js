@@ -1,5 +1,5 @@
-import client from "../client";
-const fs = require("fs");
+import client from "../client.js";
+import fs from "fs";
 
 export async function generateStandings(weekNumber) {
   const weeks = parseInt(weekNumber);

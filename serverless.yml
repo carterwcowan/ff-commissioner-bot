@@ -1,0 +1,24 @@
+service: serverless-bolt-js
+frameworkVersion: "2"
+provider:
+  name: aws
+  runtime: nodejs12.x
+  environment:
+    SIGNING_SECRET: ${env:SIGNING_SECRET}
+    BOT_TOKEN: ${env:BOT_TOKEN}
+    FF_S2: ${env:FF_S2}
+    FF_SWID: ${env:FF_SWID}
+    FF_LEAGUE_ID: ${FF_LEAGUE_ID}
+functions:
+  slack:
+    handler: app.handler
+    events:
+      - http:
+          path: slack/events
+          method: post
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+package:
+  exclude:
+    - node_modules/**

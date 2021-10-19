@@ -1,19 +1,24 @@
-import { App as SlackBot, directMention } from "@slack/bolt";
-import handleStandings from "./utilities/commands/standings";
-import handleSunday from "./utilities/commands/sunday";
-import handleTradeReview from "./utilities/commands/trade-review";
-import { handleMessage } from "./utilities/messages";
-import handlePraise from "./utilities/messages/praise";
-import handleScold from "./utilities/messages/scold";
+import pkg from "@slack/bolt";
 
-require("dotenv").config();
+const { App, directMention, AwsLambdaReceiver } = pkg;
+import handleStandings from "./utilities/commands/standings.js";
+import handleSunday from "./utilities/commands/sunday.js";
+import handleTradeReview from "./utilities/commands/trade-review.js";
+import { handleMessage } from "./utilities/messages.js";
+import handlePraise from "./utilities/messages/praise.js";
+import handleScold from "./utilities/messages/scold.js";
 
-const bot = new SlackBot({
-  token: `${process.env.BOT_TOKEN}`,
+export const awsLambdaReceiver = new AwsLambdaReceiver({
   signingSecret: `${process.env.SIGNING_SECRET}`,
-  socketMode: true,
-  appToken: `${process.env.APP_TOKEN}`,
 });
+
+const bot = new App({
+  token: `${process.env.BOT_TOKEN}`,
+  receiver: awsLambdaReceiver,
+  processBeforeResponse: true
+});
+
+
 
 bot.message(directMention(), async (event) => await handleMessage(event));
 

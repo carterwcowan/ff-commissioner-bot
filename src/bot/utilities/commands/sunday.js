@@ -1,4 +1,4 @@
-import gamedayInfo from "../../../fantasy/utilities/gameday";
+import gamedayInfo from "../../../fantasy/utilities/gameday.js";
 import { format } from "date-fns";
 
 export default async function handleSunday(event) {

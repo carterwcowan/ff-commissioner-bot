@@ -1,5 +1,5 @@
-import { SCOLD_RESPOSNES } from "../../../constants";
-import { getRandomResponse } from "../messages";
+import { SCOLD_RESPOSNES } from "../../../constants.js";
+import { getRandomResponse } from "../messages.js";
 
 export default async function handleScold(event) {
   const { message, say } = event;

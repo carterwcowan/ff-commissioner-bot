@@ -1,5 +1,5 @@
-import { PRAISE_RESPONSES } from "../../../constants";
-import { getRandomResponse } from "../messages";
+import { PRAISE_RESPONSES } from "../../../constants.js";
+import { getRandomResponse } from "../messages.js";
 
 export default async function handlePraise(event) {
   const { message, say } = event;
